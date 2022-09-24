@@ -12,7 +12,7 @@ RUN pip install --upgrade pip
 RUN pip install -r /requirements.txt
 
 # Copy app fold to app folder in container
-COPY /app /usr/scr/app
+COPY /app /usr/scr/app/
 
 # Changing to non-root user
 RUN useradd -m appUser

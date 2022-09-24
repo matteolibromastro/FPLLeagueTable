@@ -5,14 +5,6 @@ from dash.exceptions import PreventUpdate
 import plotly.express as px
 import fpl_league_table
 
-visible_cols = [
-    'player_name',
-    'entry_name',
-    'rank',
-    'event_total',
-    'total',
-]
-
 app = Dash(__name__, external_stylesheets=[dbc.themes.CYBORG])
 server = app.server
 
@@ -97,6 +89,14 @@ def bar_charts(lg_code):
                          .update_layout(showlegend=False, xaxis={'categoryorder': 'total descending'})
                          .update_yaxes(range=[df['total'].min() * 0.8, df['total'].max() * 1.1])
                          )
+
+        visible_cols = [
+            'player_name',
+            'entry_name',
+            'rank',
+            'event_total',
+            'total',
+        ]
 
         display_table = dash_table.DataTable(
             id='datatable',

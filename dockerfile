@@ -1,14 +1,22 @@
 # Dockerfile, Image, Container
 FROM python:3.10-slim
 
-WORKDIR /code
+LABEL maintainer "Matteo Mastro Libro, anise_avowed01@icloud.com"
 
-COPY ./requirements.txt /code/requirements.txt
+# Set working directory in the container
+WORKDIR /usr/src/app
 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+# Copy and install packages
+COPY requirements.txt /
+RUN pip install --upgrade pip
+RUN pip install -r /requirements.txt
 
-COPY ./app/ /code/app
+# Copy app fold to app folder in container
+COPY /app /usr/scr/app
 
-EXPOSE 8080
+# Changing to non-root user
+RUN useradd -m appUser
+USER appUser
 
-CMD python /code/app/main.py
+# Run locally on port 8050
+CMD gunicorn --bind 0.0.0.0:8050 app:server

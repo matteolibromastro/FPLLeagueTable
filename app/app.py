@@ -1,14 +1,9 @@
-# load packages
-
 import numpy as np
 from dash import Dash, dash_table, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 from dash.exceptions import PreventUpdate
 import plotly.express as px
-
 import fpl_league_table
-
-# %% spoof here for input data...
 
 visible_cols = [
     'player_name',
@@ -18,11 +13,8 @@ visible_cols = [
     'total',
 ]
 
-# Create app
-
 app = Dash(__name__, external_stylesheets=[dbc.themes.CYBORG])
-
-# %% App Layout
+server = app.server
 
 app.layout = dbc.Container([
     dbc.Row([
@@ -51,8 +43,6 @@ app.layout = dbc.Container([
     html.Br(),
 ])
 
-# App callbacks
-
 
 @app.callback(
     [
@@ -76,8 +66,6 @@ def bar_charts(lg_code):
         df['diff_to_avg'] = df['event_total'] - current_average
         df['above_avg'] = 0
         df['above_avg'] = np.where(df.diff_to_avg > 0, 1, 0)
-
-        print(df)
 
         fig = dcc.Graph(id='bar-chart',
                         figure=px.bar(
@@ -145,9 +133,3 @@ def bar_charts(lg_code):
         ),
 
         return fig, fig2, display_table
-
-
-# App Run
-
-if __name__ == '__main__':
-    app.run_server(debug=False)
